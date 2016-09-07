@@ -49,6 +49,20 @@ class FarMar::Market
     return FarMar::Vendor.by_market(@id)
   end
 
+  def products
+    
+    market_vendors = self.vendors
+
+    products = []
+
+    for vendor in market_vendors
+      products.concat(vendor.products)
+    end
+
+    return products
+
+  end
+
   def source_file
     return MARKET_FILE
   end

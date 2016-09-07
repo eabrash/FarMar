@@ -45,4 +45,11 @@ describe "Testing methods of FarMar::Market class" do
     expect(market.vendors.length).must_equal(6)
   end
 
+  it "A Market object can return the associated Product objects" do
+    market = FarMar::Market.new(["1", "People's Co-op Farmers Market", "30th and Burnside", "Portland",	"Multnomah",	"Oregon",	"97202"])
+    expect(market.products.length).must_equal(13)
+    expect(market.products[0].name).must_equal("Dry Beets")
+    expect(market.products[-1].name).must_equal("Curved Pretzel")
+  end
+
 end

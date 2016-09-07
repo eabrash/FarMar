@@ -1,4 +1,5 @@
 require_relative "../far_mar"
+require_relative "../lib/farmar_vendor.rb"
 
 class FarMar::Market
 
@@ -22,10 +23,9 @@ class FarMar::Market
 
   def self.all
 
-    array_of_markets = CSV.read(MARKET_FILE)
     markets = []
 
-    array_of_markets.each do |line|
+    CSV.foreach(MARKET_FILE) do |line|
       markets << FarMar::Market.new(line)
     end
 
@@ -35,16 +35,18 @@ class FarMar::Market
 
   def self.find(id)
 
-    markets = self.all
-
-    markets.each do |market|
-      if market.id == id
-        return market
+    CSV.foreach(MARKET_FILE) do |line|
+      if Integer(line[0]) == id
+        return FarMar::Market.new(line)
       end
     end
 
     return nil  # If market is not found
 
+  end
+
+  def vendors
+    return FarMar::Vendor.by_market(@id)
   end
 
   def source_file

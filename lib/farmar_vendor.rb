@@ -1,4 +1,7 @@
 require_relative "../far_mar"
+require_relative "../lib/farmar_market.rb"
+require_relative "../lib/farmar_product.rb"
+require_relative "../lib/farmar_sale.rb"
 
 class FarMar::Vendor
 
@@ -17,29 +20,67 @@ class FarMar::Vendor
 
   end
 
+  # Return the Market that is associated with this Vendor
+
+  def market
+    return FarMar::Market.find(@market_id)
+  end
+
+  def products
+    return FarMar::Product.by_vendor(@id)
+  end
+
+  def sales
+    return FarMar::Sale.by_vendor(@id)
+  end
+
+  def revenue
+    my_sales = self.sales
+
+    total = 0
+
+    for sale in my_sales
+      total += sale.amount
+    end
+
+    return total
+  end
+
   def self.all
 
-    array_of_vendors = CSV.read(VENDOR_FILE)
     vendors = []
 
-    array_of_vendors.each do |line|
+    CSV.foreach(VENDOR_FILE) do |line|
       vendors << FarMar::Vendor.new(line)
     end
 
     return vendors
+
   end
 
   def self.find(id)
 
-    vendors = self.all
-
-    vendors.each do |vendor|
-      if vendor.id == id
-        return vendor
+    CSV.foreach(VENDOR_FILE) do |line|
+      if Integer(line[0]) == id
+        return FarMar::Vendor.new(line)
       end
     end
 
     return nil  # If sale is not found
+
+  end
+
+  def self.by_market(market_id)
+
+    vendors_of_market = []
+
+    CSV.foreach(VENDOR_FILE) do |line|
+      if Integer(line[3]) == market_id
+        vendors_of_market << FarMar::Vendor.new(line)
+      end
+    end
+
+    return vendors_of_market
 
   end
 

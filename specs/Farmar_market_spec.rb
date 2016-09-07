@@ -8,7 +8,7 @@ describe "Testing methods of FarMar::Market class" do
     expect(market.source_file).must_equal("./support/markets.csv")
   end
 
-  it "Confirm that the .all method returns an array containing the co rrect number of markets" do
+  it "Confirm that the .all method returns an array containing the correct number of markets" do
     expect(FarMar::Market.all.length).must_equal(500)
   end
 
@@ -34,6 +34,15 @@ describe "Testing methods of FarMar::Market class" do
 
   it "Confirm that ID-based search for a market returns the correct market object" do
     expect(FarMar::Market.find(2).name).must_equal("Silverdale Farmers Market")
+  end
+
+  it "A Market object can return the associated Vendor objects" do
+    market = FarMar::Market.new(["1", "People's Co-op Farmers Market", "30th and Burnside", "Portland",	"Multnomah",	"Oregon",	"97202"])
+    expect(market.vendors[0].id).must_equal(1)
+    expect(market.vendors[0].name).must_equal("Feil-Farrell")
+    expect(market.vendors[-1].id).must_equal(6)
+    expect(market.vendors[-1].name).must_equal("Zulauf and Sons")
+    expect(market.vendors.length).must_equal(6)
   end
 
 end

@@ -2,19 +2,49 @@ require_relative "../far_mar"
 
 class FarMar::Market
 
-  MARKET_FILE = "../support/markets.csv"
+  MARKET_FILE = "./support/markets.csv"  # Source file
 
-  @@markets = []
-
-  def self.read_csv
-    # Iterates through csv file of markets
-    #   Initializes a Market object for each line
-    #   Stores the Market object in @@markets array
-  end
+  attr_reader :id, :name, :address, :city, :county, :state, :zip
 
   def initialize (line)
-    # Makes new instance of Market given the data in the provided line
-    # Returns the new instance of Market
+
+    @id = Integer(line[0])
+    @name = line[1]
+    @address = line[2]
+    @city = line[3]
+    @county = line[4]
+    @state = line[5]
+    @zip = line[6]
+
+    return self
+
+  end
+
+  def self.all
+
+    array_of_markets = CSV.read(MARKET_FILE)
+    markets = []
+
+    array_of_markets.each do |line|
+      markets << FarMar::Market.new(line)
+    end
+
+    return markets
+
+  end
+
+  def self.find(id)
+
+    markets = self.all
+
+    markets.each do |market|
+      if market.id == id
+        return market
+      end
+    end
+
+    return nil  # If market is not found
+
   end
 
   def source_file

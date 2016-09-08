@@ -52,4 +52,34 @@ describe "Testing methods of FarMar::Market class" do
     expect(market.products[-1].name).must_equal("Curved Pretzel")
   end
 
+  it "A set of markets can be searched for a term in the name field, and the matching Market objects returned" do
+    school_results = FarMar::Market.search("school")
+    expect(school_results.length).must_equal(3)
+    expect(school_results.select{|result| result.id == 75}[0].name).must_equal("Fox School Farmers Market")
+  end
+
+  it "Correctly identifies the vendor with the highest overall revenue in the market" do
+    market = FarMar::Market.new(["1", "People's Co-op Farmers Market", "30th and Burnside", "Portland",	"Multnomah",	"Oregon",	"97202"])
+    expect(market.prefered_vendor.id).must_equal(5)
+    expect(market.prefered_vendor.name).must_equal("Reynolds, Schmitt and Klocko")
+  end
+
+  it "Correctly identifies the vendor with the highest revenue in the market for a given date" do
+    market = FarMar::Market.new(["1", "People's Co-op Farmers Market", "30th and Burnside", "Portland",	"Multnomah",	"Oregon",	"97202"])
+    expect(market.prefered_vendor(DateTime.parse("2013-11-13")).id).must_equal(1)
+    expect(market.prefered_vendor(DateTime.parse("2013-11-13")).name).must_equal("Feil-Farrell")
+  end
+
+  it "Correctly identifies the vendor with the lowest overall revenue in the market" do
+    market = FarMar::Market.new(["1", "People's Co-op Farmers Market", "30th and Burnside", "Portland",	"Multnomah",	"Oregon",	"97202"])
+    expect(market.worst_vendor.id).must_equal(6)
+    expect(market.worst_vendor.name).must_equal("Zulauf and Sons")
+  end
+
+  it "Correctly identifies the vendor with the lowest revenue in the market for a given date" do
+    market = FarMar::Market.new(["1", "People's Co-op Farmers Market", "30th and Burnside", "Portland",	"Multnomah",	"Oregon",	"97202"])
+    expect(market.worst_vendor(DateTime.parse("2013-11-13")).id).must_equal(5)
+    expect(market.worst_vendor(DateTime.parse("2013-11-13")).name).must_equal("Reynolds, Schmitt and Klocko")
+  end
+
 end

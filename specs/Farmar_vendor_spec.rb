@@ -67,4 +67,10 @@ describe "Testing methods of FarMar::Vendor class" do
     expect(vendors.length).must_equal(6)
   end
 
+  it "Returns the correct per-day total revenue for a Vendor" do
+    vendor = FarMar::Vendor.new(["4","Kris and Sons","5","1"])
+    expect(vendor.revenue(DateTime.parse("2013-11-11"))).must_equal(9035)
+    expect(vendor.revenue(DateTime.parse("2013-11-13"))).must_equal(0)
+  end
+
 end

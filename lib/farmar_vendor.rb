@@ -34,16 +34,24 @@ class FarMar::Vendor
     return FarMar::Sale.by_vendor(@id)
   end
 
-  def revenue
+  def revenue(date = false)
+
     my_sales = self.sales
 
     total = 0
 
     for sale in my_sales
-      total += sale.amount
+      if !date
+        total += sale.amount
+      else
+        if sale.purchase_time.to_date == date.to_date
+          total += sale.amount
+        end
+      end
     end
 
     return total
+
   end
 
   def self.all

@@ -73,4 +73,25 @@ describe "Testing methods of FarMar::Vendor class" do
     expect(vendor.revenue(DateTime.parse("2013-11-13"))).must_equal(0)
   end
 
+  it "Returns the top n vendors ranked by revenue" do
+    expect(FarMar::Vendor.most_revenue(1).length).must_equal(1)
+    expect(FarMar::Vendor.most_revenue(1)[0].id).must_equal(X)
+    expect(FarMar::Vendor.most_revenue(5).length).must_equal(5)
+    expect(FarMar::Vendor.most_revenue(5)[-1].id).must_equal(Y)
+    expect(FarMar::Vendor.most_revenue(3000).length).must_equal(2690)
+  end
+
+  it "Returns the top n vendors ranked by number of items sold (number of sales)" do
+    expect(FarMar::Vendor.most_items(1).length).must_equal(1)
+    expect(FarMar::Vendor.most_items(1)[0].id).must_equal(X)
+    expect(FarMar::Vendor.most_items(5).length).must_equal(5)
+    expect(FarMar::Vendor.most_items(5)[-1].id).must_equal(Y)
+    expect(FarMar::Vendor.most_items(3000).length).must_equal(2690)
+  end
+
+  it "Returns the total revenue for a date" do
+    expect(FarMar::Vendor.revenue(DateTime.parse("2013-11-11")).must_equal(R)
+    expect(FarMar::Vendor.revenue(DateTime.parse("1900-11-11")).must_equal(0)
+  end
+
 end

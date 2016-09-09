@@ -8,6 +8,8 @@ class FarMar::Product
 
   attr_accessor :id, :name, :vendor_id
 
+  # Make a new Product object using a line from the source CSV (as an array).
+
   def initialize (line)
 
     @id = Integer(line[0])
@@ -18,17 +20,25 @@ class FarMar::Product
 
   end
 
+  # Return the Vendor that sells this Product.
+
   def vendor
     return FarMar::Vendor.find(@vendor_id)
   end
+
+  # Return the Sales in which this Product was sold.
 
   def sales
     return FarMar::Sale.by_product(@id)
   end
 
+  # Return the number of Sales in which this Product was sold.
+
   def number_of_sales
     return FarMar::Sale.by_product(@id).length
   end
+
+  # Return all the products specified in the source CSV.
 
   def self.all
 
@@ -42,6 +52,9 @@ class FarMar::Product
 
   end
 
+  # Return the Product instance with the specified ID, or nil if that ID is not
+  # found in the source CSV.
+
   def self.find(id)
 
     CSV.foreach(PRODUCT_FILE) do |line|
@@ -53,6 +66,8 @@ class FarMar::Product
     return nil  # If product is not found
 
   end
+
+  # Return all the Product objects associated with a particular Vendor.
 
   def self.by_vendor(vendor_id)
 
@@ -67,6 +82,8 @@ class FarMar::Product
     return vendors_products
 
   end
+
+  # Return the source CSV file path for the Product objects.
 
   def source_file
     return PRODUCT_FILE

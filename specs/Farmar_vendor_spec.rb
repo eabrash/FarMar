@@ -92,7 +92,6 @@ describe "Testing methods of FarMar::Vendor class" do
   end
 
   it "Returns the total revenue for a date" do
-    skip
     expect(FarMar::Vendor.revenue(DateTime.parse("2013-11-11"))).must_equal(8575374)
     expect(FarMar::Vendor.revenue(DateTime.parse("1900-11-11"))).must_equal(0)
   end

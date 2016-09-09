@@ -11,7 +11,7 @@ class FarMar::Sale
   def initialize (line)
 
     @id = Integer(line[0])
-    @amount = Integer(line[1].to_f.round(0))
+    @amount = Integer(line[1])
     @purchase_time = DateTime.parse(line[2])
     @vendor_id = Integer(line[3])
     @product_id = Integer(line[4])
@@ -112,6 +112,38 @@ class FarMar::Sale
 
   end
 
+  def self.by_date(date)
+
+    sales_on_date = []
+
+    parsed_date = date.to_date
+
+    CSV.foreach(SALES_FILE) do |line|
+      if DateTime.parse(line[2]).to_date == parsed_date
+        sales_on_date << FarMar::Sale.new(line)
+      end
+    end
+
+    return sales_on_date
+
+  end
+
+  def self.by_date_total(date)
+
+    total = 0
+
+    parsed_date = date.to_date
+
+    CSV.foreach(SALES_FILE) do |line|
+      if DateTime.parse(line[2]).to_date == parsed_date
+        total += Integer(line[1])
+      end
+    end
+
+    return total
+
+  end
+
   # Source CSV file path for sales.
 
   def source_file
@@ -120,19 +152,19 @@ class FarMar::Sale
 
 end
 
-sales = FarMar::Sale.all
-target_date = DateTime.parse("1900-11-11").to_date
-total = 0
-
-sales.each do |sale|
-
-  if sale.purchase_time.to_date == target_date
-    total += sale.amount
-  end
-
-end
-
-puts "Total on 2013-11-11: #{total}"
+# sales = FarMar::Sale.all
+# target_date = DateTime.parse("1900-11-11").to_date
+# total = 0
+#
+# sales.each do |sale|
+#
+#   if sale.purchase_time.to_date == target_date
+#     total += sale.amount
+#   end
+#
+# end
+#
+# puts "Total on 2013-11-11: #{total}"
 
 # sales = FarMar::Sale.all
 #

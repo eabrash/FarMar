@@ -112,6 +112,10 @@ class FarMar::Vendor
 
   end
 
+  def self.revenue(date)
+    return FarMar::Sale.by_date_total(date)
+  end
+
   # Returns the source file path for the vendor data.
 
   def source_file

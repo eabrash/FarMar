@@ -121,28 +121,45 @@ class FarMar::Sale
 end
 
 sales = FarMar::Sale.all
-
-per_vendor_cents_total = []
+target_date = DateTime.parse("1900-11-11").to_date
+total = 0
 
 sales.each do |sale|
 
-  if per_vendor_cents_total.keys.include?(sale.vendor_id)
-    per_vendor_cents_total[sale.vendor_id] += sale.amount
-  else
-    per_vendor_cents_total[sale.vendor_id] = sale.amount
+  if sale.purchase_time.to_date == target_date
+    total += sale.amount
   end
 
 end
 
-highest_scorers = []
+puts "Total on 2013-11-11: #{total}"
 
-5.times do
-  highest = per_vendor_cents_total.max_by {|vendor_id, sales_made| sales_made}
-  per_vendor_cents_total.delete(highest[0])
-  highest_scorers << highest
-end
+# sales = FarMar::Sale.all
+#
+# per_vendor_cents_total = {}
+#
+# sales.each do |sale|
+#
+#   if per_vendor_cents_total.keys.include?(sale.vendor_id)
+#     per_vendor_cents_total[sale.vendor_id] += 1
+#   else
+#     per_vendor_cents_total[sale.vendor_id] = 1
+#   end
+#
+# end
+#
+# highest_scorers = []
+#
+# 254.times do
+#   highest = per_vendor_cents_total.max_by {|vendor_id, sales_made| sales_made}
+#   per_vendor_cents_total.delete(highest[0])
+#   highest_scorers << highest
+# end
+#
+# puts "YO"
+# print highest_scorers
 
-print highest_scorers
+# [[734, 75944], [867, 65804], [1899, 65344], [1201, 63293], [2320, 61921]]
 
 
 # selected = products_array.select {|product| product.purchase_time > DateTime.parse("2013-11-06 08:45:00 -08:00") && product.purchase_time < DateTime.parse("2013-11-06 09:00:00 -08:00")}

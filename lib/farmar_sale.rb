@@ -112,6 +112,8 @@ class FarMar::Sale
 
   end
 
+  # Return all the Sales that occurred on a given date.
+
   def self.by_date(date)
 
     sales_on_date = []
@@ -127,6 +129,8 @@ class FarMar::Sale
     return sales_on_date
 
   end
+
+  # Return the total cent amount of the sales that occurred on a given date.
 
   def self.by_date_total(date)
 
@@ -151,6 +155,14 @@ class FarMar::Sale
   end
 
 end
+
+# objects = FarMar::Sale.by_date(DateTime.parse("2013-11-06"))
+#
+# objects.each do |object|
+#   puts object.id
+# end
+#
+# puts objects.length
 
 # sales = FarMar::Sale.all
 # target_date = DateTime.parse("1900-11-11").to_date

@@ -112,6 +112,9 @@ class FarMar::Vendor
 
   end
 
+  # Return the total revenue for a date (not totally sure why this lives in
+  # the Vendor class; seems to me like it is more naturally Sale methods).
+
   def self.revenue(date)
     return FarMar::Sale.by_date_total(date)
   end

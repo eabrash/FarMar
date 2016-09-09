@@ -59,4 +59,11 @@ describe "Testing methods of FarMar::Sale class" do
     expect(sales_within_internal_range.length).must_equal(22)
   end
 
+  it "Return the correct set of sales for a date" do
+    sales_of_day = FarMar::Sale.by_date(DateTime.parse("2013-11-06"))
+    expect(sales_of_day.length).must_equal(1041)
+    expect(sales_of_day[0].id).must_equal(4)
+    expect(sales_of_day[-1].id).must_equal(11980)
+  end
+
 end
